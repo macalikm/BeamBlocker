@@ -53,7 +53,7 @@ void setup() {
   Serial.println("Stepper driver On-line...");
 
   AFMS1.begin();  // create with the default frequency 1.6KHz
-  AFMS1.begin();  // create with the default frequency 1.6KHz
+  AFMS2.begin();  // create with the default frequency 1.6KHz
   //AFMSx.begin(1000);  // OR with a different frequency, say 1KHz
   
   flagMotor1->setSpeed(70);  // 70 rpm 
@@ -70,14 +70,25 @@ void loop() {
   if ( digitalRead(motorPin1) == HIGH && up1 == false) {
     Serial.println("Raise Flag 1");
     flagMotor1->step(STEPS, FORWARD, DOUBLE); 
+//    if ( up4 == false ){
+//      Serial.print("Raise Flag 4\n");
+//      up4 = true;
+//    } 
     up1 = true;
+    dn1 = false;
     delay(DLY02S);
   }
  
   if ( digitalRead(motorPin1) == LOW && up1 == true) {
     Serial.println("Lower Flag 1");
     flagMotor1->step(STEPS, BACKWARD, DOUBLE);
+//    if ( up4 == true) {
+//      Serial.print("lower Flag 4\n");
+//      flagMotor4->step(STEPS, BACKWARD, DOUBLE); 
+//      up4 = false;
+//    }
     up1 = false;
+    dn1 = true;
     delay(DLY02S);
   }
 
@@ -131,8 +142,8 @@ bool flag4;
  
  if ( up1 == true || up2 == true || up3 == true ){
     flag4 = true;
-   }
- else {
+    }
+   else {
     flag4 = false;
    }
   
@@ -144,7 +155,7 @@ bool flag4;
     delay(DLY02S);
   }
 
- if ( up1 == false && up2 == false && up3 == false && dn4 == true ) {
+ if ( up1 == false && up2 == false && up3 == false && up4 == true ) {
     Serial.println("Lower Flag 4");
     flagMotor4->step(STEPS, BACKWARD, DOUBLE);
     dn4 = true;
